@@ -2,45 +2,61 @@
 
 #Define enter command method
 def enter_command
-  entered = false
-  while entered == false
-    puts "Enter command: Left, Right, or Forward"
-    command = gets.chomp
+  while true
+    print "Enter command: Left, Right, or Forward: "
+    command = gets.strip
     command.downcase!
     if command == "left" || command == "right" || command == "forward"
-      entered = true
+      break
     end
   end
   return command
 end
 
+#Define try again function
+def try_again
+  while true
+    print "Would you like to play again? [y/n]: "
+    input = gets.strip
+    input.downcase!
+    case input
+    when 'y', 'yes'
+      puts 'Playing again'
+      play_maze
+    when /\A[nN]o?\Z/
+      break
+    end
+  end
+end
+
 #Define maze
 def maze(command)
-  #responses
-  response1 = "You have encounterd a Warewolf, and died\nGame Over"
-  response2 = "You have encounterd a Goblin, and died\nGame Over"
-  response3 = "You are safe, please contine"
-  #commands
   if command == "left"
-    puts response1
+    puts "You have encounterd a Warewolf, and died\nGame Over"
     return false
   elsif command == "right"
-    puts response2
+    puts "You have encounterd a Goblin, and died\nGame Over"
     return false
   elsif command == "forward"
-    puts response3
+    puts "You are safe, please contine"
     return true
   end
 end
 
-#run maze
-if maze(enter_command) == true
+#Define play maze
+def play_maze
+  puts "Welcome to the Maze!!\nFollow the rules and hopefully you will get out alive"
   if maze(enter_command) == true
-    puts "Congratulations you have exited the maze and won the game!\nWinner\nGame Over"
-    return true
+    if maze(enter_command) == true
+      puts "Congratulations you have exited the maze and won the game!\nWinner\nGame Over"
+      return true
+    else
+      return false
+    end
   else
     return false
   end
-else
-  return false
 end
+
+play_maze
+try_again
